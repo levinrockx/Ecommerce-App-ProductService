@@ -1,9 +1,7 @@
 package com.ecommerce.productsservice.models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
