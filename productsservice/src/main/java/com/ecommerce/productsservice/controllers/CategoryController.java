@@ -7,7 +7,6 @@ import com.ecommerce.productsservice.models.ResponseMessage;
 import com.ecommerce.productsservice.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {

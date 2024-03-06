@@ -10,9 +10,6 @@ import com.ecommerce.productsservice.models.ResponseMessage;
 import com.ecommerce.productsservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -23,34 +20,30 @@ public class ProductController {
     }
     @GetMapping("/{id}")
     public ResponseDto<Object> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
-        ResponseDto<Object> response = ResponseDto.builder()
+        return ResponseDto.builder()
                 .data(productService.getProductById(id))
                 .message(ResponseMessage.success)
                 .success(true)
                 .build();
-        return response;
     }
     @GetMapping
     public ResponseDto<Object> getAllProducts(){
-        ResponseDto<Object> response = ResponseDto.builder()
+        return ResponseDto.builder()
                 .data(productService.getAllProducts())
                 .message(ResponseMessage.success)
                 .success(true)
                 .build();
-        return response;
     }
     @PostMapping
     public ResponseDto<Object> addProduct(@RequestBody AddProductRequestDto addProductDto)
             throws CategoryNotFoundException{
-    Product product = getProductFromAddProductDto(addProductDto);
-        ResponseDto<Object> response = ResponseDto.builder()
+        Product product = getProductFromAddProductDto(addProductDto);
+        return ResponseDto.builder()
                 .data(productService.addProduct(product))
                 .message(ResponseMessage.success)
                 .success(true)
                 .build();
-        return response;
     }
-
     public Product getProductFromAddProductDto(AddProductRequestDto dto) throws CategoryNotFoundException {
         Product product = new Product();
         product.setTitle(dto.getTitle());
@@ -62,5 +55,4 @@ public class ProductController {
         product.setCategory(category);
         return product;
     }
-
 }

@@ -1,7 +1,4 @@
 package com.ecommerce.productsservice.dtos;
-
-import com.ecommerce.productsservice.models.Category;
-import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
