@@ -7,7 +7,6 @@ import com.ecommerce.productsservice.exceptions.ProductNotFoundException;
 import com.ecommerce.productsservice.models.Category;
 import com.ecommerce.productsservice.models.Product;
 import com.ecommerce.productsservice.models.ResponseMessage;
-import com.ecommerce.productsservice.services.CategoryService;
 import com.ecommerce.productsservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +23,8 @@ public class ProductController {
     }
     @GetMapping("/{id}")
     public ResponseDto<Object> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
-        Product p = productService.getProductById(id);
         ResponseDto<Object> response = ResponseDto.builder()
-                .data(p)
+                .data(productService.getProductById(id))
                 .message(ResponseMessage.success)
                 .success(true)
                 .build();
@@ -42,7 +40,8 @@ public class ProductController {
         return response;
     }
     @PostMapping
-        public ResponseDto<Object> addProduct(@RequestBody AddProductRequestDto addProductDto) throws CategoryNotFoundException{
+    public ResponseDto<Object> addProduct(@RequestBody AddProductRequestDto addProductDto)
+            throws CategoryNotFoundException{
     Product product = getProductFromAddProductDto(addProductDto);
         ResponseDto<Object> response = ResponseDto.builder()
                 .data(productService.addProduct(product))

@@ -22,12 +22,12 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public List<Category> getAllCategories() {
-        return null;
+        return categoryRepo.findAll();
     }
 
     @Override
     public Category addCategory(Category category) {
-        return null;
+        return categoryRepo.save(category);
     }
 
     @Override

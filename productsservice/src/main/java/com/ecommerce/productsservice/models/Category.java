@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 public class Category extends BaseModel {
-    public String name;
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "category")
-    List<Product> products;
+    private String name;
+//    @OneToMany(fetch = FetchType.EAGER,mappedBy = "category")
+//    private List<Product> products;
 }
