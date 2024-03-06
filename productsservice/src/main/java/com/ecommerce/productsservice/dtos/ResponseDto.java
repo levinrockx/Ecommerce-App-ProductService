@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ResponseDto <T>{
+public class ResponseDto<T>{
     private T data;
     private ResponseMessage message;
     private boolean success;

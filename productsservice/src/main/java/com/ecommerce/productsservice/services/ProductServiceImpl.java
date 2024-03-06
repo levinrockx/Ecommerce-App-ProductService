@@ -1,5 +1,6 @@
 package com.ecommerce.productsservice.services;
 
+import com.ecommerce.productsservice.dtos.ProductResponseDto;
 import com.ecommerce.productsservice.exceptions.CategoryNotFoundException;
 import com.ecommerce.productsservice.exceptions.ProductNotFoundException;
 import com.ecommerce.productsservice.models.Category;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -22,14 +24,18 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product getProductById(Long id) throws ProductNotFoundException{
+    public ProductResponseDto getProductById(Long id) throws ProductNotFoundException{
         Optional<Product> product = productRepo.findById(id);
-        return product.orElseThrow(()-> new ProductNotFoundException("Product with id: " + id + ", is not found."));
+        if(product.isPresent()) {
+            return getProductResponseDtoFromProduct(product.get());
+        }
+        throw new ProductNotFoundException("Product with id: " + id + ", is not found.");
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepo.findAll();
+    public List<ProductResponseDto> getAllProducts() {
+        return productRepo.findAll().stream().map(this::getProductResponseDtoFromProduct)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -51,4 +57,18 @@ public class ProductServiceImpl implements ProductService{
     public Category getCategoryById(Long id) throws CategoryNotFoundException {
         return this.categoryService.getCategoryById(id);
     }
+
+    public ProductResponseDto getProductResponseDtoFromProduct(Product product) {
+        ProductResponseDto dto = ProductResponseDto.builder()
+                .id(product.getId())
+                .title(product.getTitle())
+                .description(product.getDescription())
+                .quantity(product.getQuantity())
+                .categoryId(product.getCategory().getId())
+                .price(product.getPrice())
+                .rating(product.getRating())
+                .build();
+        return dto;
+    }
+
 }
