@@ -1,6 +1,8 @@
 package com.ecommerce.productsservice.services;
 
+import com.ecommerce.productsservice.exceptions.CategoryNotFoundException;
 import com.ecommerce.productsservice.exceptions.ProductNotFoundException;
+import com.ecommerce.productsservice.models.Category;
 import com.ecommerce.productsservice.models.Product;
 import com.ecommerce.productsservice.repositories.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,11 @@ import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService{
+    private CategoryService categoryService;
     private ProductRepo productRepo;
     @Autowired
-    public ProductServiceImpl(ProductRepo productRepo){
+    public ProductServiceImpl(ProductRepo productRepo, CategoryService categoryService){
+        this.categoryService = categoryService;
         this.productRepo = productRepo;
     }
 
@@ -25,7 +29,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        return null;
+        return productRepo.findAll();
     }
 
     @Override
@@ -35,11 +39,16 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product addProduct(Product product) {
-        return null;
+        return productRepo.save(product);
     }
 
     @Override
     public Product updateProductById(Long id, Product product) {
         return null;
+    }
+
+    @Override
+    public Category getCategoryById(Long id) throws CategoryNotFoundException {
+        return this.categoryService.getCategoryById(id);
     }
 }
